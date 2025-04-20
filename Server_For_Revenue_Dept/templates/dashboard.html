@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue Department Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <script src="{{ url_for('static', filename='js/web3.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</head>
+
+<body onload="checkConnection()">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/gov-logo.png') }}" alt="Government Logo" class="gov-logo">
+            <h3>Revenue Department</h3>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="#"><i class="fas fa-file-alt"></i> Properties</a>
+            <a href="#"><i class="fas fa-history"></i> History</a>
+            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+        <div class="sidebar-footer">
+            <button id="logoutbutton">
+                <i class="fas fa-sign-out-alt"></i>
+                <a href="/logout">Logout</a>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <h2>Welcome, <span id="nameOfUser"></span></h2>
+                <p>Department ID: <span id="revenueDeptId"></span></p>
+            </div>
+            <div class="header-right">
+                <div class="wallet-info">
+                    <i class="fas fa-wallet"></i>
+                    <span class="wallet-address">Connected to MetaMask</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <i class="fas fa-file-signature"></i>
+                <div class="stat-info">
+                    <h3>Pending Verifications</h3>
+                    <p id="pendingCount">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle"></i>
+                <div class="stat-info">
+                    <h3>Verified Properties</h3>
+                    <p id="verifiedCount">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-times-circle"></i>
+                <div class="stat-info">
+                    <h3>Rejected Properties</h3>
+                    <p id="rejectedCount">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="properties-section">
+            <div class="section-header">
+                <h2>Property Registrations</h2>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search properties...">
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="propertiesTable">
+                    <thead>
+                        <tr>
+                            <th>Property ID</th>
+                            <th>Location ID</th>
+                            <th>Survey Number</th>
+                            <th>Area</th>
+                            <th>Documents</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="propertiesTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PDF Viewer Modal -->
+        <div class="pdf-popup">
+            <div class="pdf-header">
+                <h3>Property Documents</h3>
+                <button class="close-btn" onclick="closePopup()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <iframe id="pdf-frame" src="" frameborder="0"></iframe>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingDiv" class="loading-overlay">
+            <div class="loader"></div>
+            <span id="loadingText">Connecting to Wallet...</span>
+        </div>
+
+        <!-- Notification -->
+        <div id="notifyUser" class="notification"></div>
+    </main>
+
+    <script>
+        // Search functionality
+        document.querySelector('.search-box input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#propertiesTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

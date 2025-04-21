@@ -89,7 +89,7 @@ This project contains mainly two steps:
 1. Clone the repository:
 
    ```
-   git clone https://github.com/bhanuprasadChesetti/Land-Registraion-System-with-Blockchain.git
+   git clone https://github.com/Yaggggy/Pakki_Registry.git
    ```
 
 
@@ -130,9 +130,6 @@ This project contains mainly two steps:
    truffle migrate
    ```
    
-   > Note down `account` used for deploying, which looks similar to the following.
-
-   ![alt text](readme_assests/contract_deploying.png)
 6. Install dependencies:
    
    6.1 Create python's virtual environment
